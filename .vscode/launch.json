@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Ejecutar Servidor Web (localhost:8084)",
+            "request": "launch",
+            "mainClass": "patrones.servidor.ServidorLibreriaWeb",
+            "classPaths": [
+                "${workspaceFolder}/build/classes",
+                "${workspaceFolder}/bin",
+                "${workspaceFolder}/lib/*"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Depurar Archivo Actual",
+            "request": "launch",
+            "mainClass": "${file}",
+            "classPaths": [
+                "${workspaceFolder}/build/classes",
+                "${workspaceFolder}/bin",
+                "${workspaceFolder}/lib/*"
+            ]
+        }
+    ]
+}

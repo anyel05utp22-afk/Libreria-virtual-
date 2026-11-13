@@ -1,0 +1,861 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --success-green: #15803d;
+    --warning-orange: #d97706;
+    --text-dark: #18181b;
+    --text-gray: #71717a;
+    --border-light: rgba(228, 228, 231, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    color: var(--text-dark);
+    min-height: 100vh;
+    background-color: #f4f4f5;
+    overflow-x: hidden;
+}
+
+/* ==================================================== */
+/* 1. FONDO DIFUMINADO EN TODA LA PLATAFORMA (IMAGEN 2) */
+/* ==================================================== */
+.background-blur-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-blur-image {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background-image: url('/static/background_books.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(16px) brightness(0.78);
+    transform: scale(1.06);
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(250, 250, 250, 0.40);
+}
+
+/* ==================================================== */
+/* 2. CABECERA SUPERIOR (IDÉNTICA A LA IMAGEN)          */
+/* ==================================================== */
+.top-nav-ereader {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.nav-main-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.nav-back-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #27272a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+}
+
+.nav-back-btn:hover {
+    transform: scale(1.15);
+}
+
+.nav-main-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #18181b;
+    letter-spacing: -0.4px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.search-box {
+    position: relative;
+    width: 250px;
+}
+
+.search-ico {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 7px 12px 7px 32px;
+    border-radius: 20px;
+    border: 1px solid #d4d4d8;
+    background: #f4f4f5;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.search-box input:focus {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.nav-pills {
+    display: flex;
+    gap: 6px;
+}
+
+.pill-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    background: #f4f4f5;
+    color: #52525b;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pill-btn:hover {
+    background: #e4e4e7;
+    color: #18181b;
+}
+
+.pill-btn.active {
+    background: #18181b;
+    color: white;
+}
+
+/* ==================================================== */
+/* 3. CONTENEDOR PRINCIPAL Y VISTAS                     */
+/* ==================================================== */
+.ereader-main-container {
+    max-width: 1200px;
+    margin: 16px auto;
+    padding: 0 20px 60px;
+}
+
+.content-view {
+    display: none;
+}
+
+.content-view.active {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================================================== */
+/* 4. CATÁLOGO VISUAL (IDÉNTICO A LA IMAGEN 2)          */
+/* ==================================================== */
+.catalog-canvas {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border-light);
+}
+
+.ereader-category-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ereader-category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ereader-category-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #18181b;
+    letter-spacing: -0.2px;
+}
+
+.ereader-arrow {
+    font-size: 15px;
+    color: #27272a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.ereader-arrow:hover {
+    transform: translateX(3px);
+}
+
+/* CARRUSEL HORIZONTAL */
+.ereader-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #d4d4d8 transparent;
+}
+
+.ereader-carousel::-webkit-scrollbar {
+    height: 5px;
+}
+
+.ereader-carousel::-webkit-scrollbar-thumb {
+    background: #d4d4d8;
+    border-radius: 4px;
+}
+
+/* TARJETA DE LIBRO (BOOK CARD TIPO IMAGEN 2) */
+.book-item-card {
+    flex: 0 0 114px;
+    width: 114px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.book-item-card:hover {
+    transform: translateY(-4px);
+}
+
+.book-jacket {
+    width: 114px;
+    height: 160px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14), inset -1px 0 0 rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 8px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Lomo sutil del libro */
+.book-jacket::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.28);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.jacket-title {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.25;
+    padding-left: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.jacket-author {
+    font-size: 9px;
+    opacity: 0.9;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-meta-below {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.meta-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #18181b;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.meta-author {
+    font-size: 11px;
+    color: var(--text-gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* BADGES DE ESTADO (VERDE DISPONIBLE / AMBAR RESERVAR) */
+.meta-status {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.meta-status.disponible {
+    color: var(--success-green);
+}
+
+.meta-status.reservar {
+    color: var(--warning-orange);
+}
+
+/* ==================================================== */
+/* 5. VISTA GESTIÓN CRUD                                */
+/* ==================================================== */
+.management-canvas {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border-light);
+}
+
+.mgmt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e4e4e7;
+}
+
+.mgmt-header h2 {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.mgmt-header p {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-top: 2px;
+}
+
+.mgmt-toolbar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid #d4d4d8;
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+    color: #27272a;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.tool-btn:hover {
+    background: #f4f4f5;
+    border-color: #a1a1aa;
+}
+
+.tool-undo {
+    background: #fef3c7;
+    border-color: #fde68a;
+    color: #b45309;
+}
+
+/* FORMULARIO */
+.mgmt-form {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 22px;
+}
+
+.mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.field-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-item label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.field-item input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 13px;
+    outline: none;
+    background: white;
+}
+
+.field-item input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.mgmt-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-save {
+    background: #18181b;
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background: #27272a;
+}
+
+.btn-clean {
+    background: white;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-del {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* TABLA */
+.mgmt-table-box {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e4e4e7;
+}
+
+.ereader-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 13px;
+    text-align: left;
+}
+
+.ereader-table th {
+    background: #f4f4f5;
+    color: #52525b;
+    font-weight: 700;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e4e4e7;
+}
+
+.ereader-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f4f4f5;
+}
+
+.ereader-table tbody tr:hover {
+    background: #f8fafc;
+    cursor: pointer;
+}
+
+/* ==================================================== */
+/* 6. VISTA AUDITORIA                                   */
+/* ==================================================== */
+.audit-row {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 20px;
+}
+
+.audit-log-box, .audit-anti-box {
+    background: white;
+    border-radius: 8px;
+    padding: 18px;
+    border: 1px solid #e4e4e7;
+}
+
+.log-terminal {
+    background: #18181b;
+    color: #38bdf8;
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    height: 340px;
+    overflow-y: auto;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.anti-list {
+    margin-top: 12px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.anti-list li {
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.anti-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success-green);
+    font-weight: bold;
+}
+
+/* ==================================================== */
+/* 7. MODAL DE ADQUISICIÓN INTERACTIVO                  */
+/* ==================================================== */
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop.active {
+    display: flex;
+}
+
+.modal-card {
+    background: white;
+    border-radius: 12px;
+    width: 600px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e4e4e7;
+}
+
+.modal-top h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #71717a;
+}
+
+.modal-body-scroll {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-book-hero {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f4f4f5;
+}
+
+.book-cover-mockup {
+    width: 85px;
+    height: 120px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #18181b, #27272a);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.modal-author {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-top: 2px;
+}
+
+.modal-cat {
+    font-size: 12px;
+    color: #71717a;
+    margin-top: 2px;
+}
+
+.modal-pills {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.pill-status {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pill-stock {
+    background: #f4f4f5;
+    color: #52525b;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.modal-loan-rule {
+    font-size: 11px;
+    color: #a1a1aa;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.opt-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.opt-row label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3f3f46;
+}
+
+.opt-radios, .opt-checks {
+    display: flex;
+    gap: 14px;
+    font-size: 13px;
+}
+
+.opt-row select {
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid #d4d4d8;
+    font-size: 13px;
+}
+
+.modal-price-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.price-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.price-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--success-green);
+}
+
+.modal-observer-box {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.sub-form-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.sub-form-row input {
+    flex: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #fdba74;
+}
+
+.btn-sub-action {
+    background: #ea580c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.modal-bottom-actions {
+    padding: 14px 20px;
+    border-top: 1px solid #e4e4e7;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancel {
+    background: #f4f4f5;
+    color: #52525b;
+    border: 1px solid #d4d4d8;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-confirm {
+    background: #18181b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* TOAST */
+.toast-shelf {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast-pill {
+    background: #18181b;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideUp 0.15s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

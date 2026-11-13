@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compilar Proyecto",
+            "type": "shell",
+            "command": "javac -encoding UTF-8 -d build/classes -cp \"lib/*;src\" (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$javac"]
+        },
+        {
+            "label": "Ejecutar Aplicación Principal (Catálogo y CRUD)",
+            "type": "shell",
+            "command": "java -cp \"build/classes;lib/*\" patrones.ui.MainLibreriaApp",
+            "dependsOn": "Compilar Proyecto",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Ejecutar Interfaz Clásica (Libro)",
+            "type": "shell",
+            "command": "java -cp \"build/classes;lib/*\" Interfacez.Libro",
+            "dependsOn": "Compilar Proyecto",
+            "problemMatcher": []
+        }
+    ]
+}
