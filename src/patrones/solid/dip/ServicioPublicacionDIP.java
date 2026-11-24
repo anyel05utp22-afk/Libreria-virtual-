@@ -3,8 +3,8 @@ package patrones.solid.dip;
 import java.util.List;
 
 /**
- * SEMANA 3: DIP - Servicio de alto nivel que depende de la abstracción IRepositorioDIP,
- * no de una implementación concreta de base de datos.
+ * SEMANA 3: DIP - Servicio de alto nivel que depende exclusivamente de la abstracción IRepositorioDIP.
+ * Permite intercambiar MySQL por almacenamiento en memoria (o pruebas unitarias) sin modificar lógica de negocio.
  */
 public class ServicioPublicacionDIP<T> {
     private final IRepositorioDIP<T> repositorio;
@@ -17,6 +17,18 @@ public class ServicioPublicacionDIP<T> {
         return repositorio.guardar(item);
     }
 
+    public int registrarRetornandoId(T item) {
+        return repositorio.guardarRetornandoId(item);
+    }
+
+    public boolean actualizar(T item) {
+        return repositorio.actualizar(item);
+    }
+
+    public T buscarPorId(int id) {
+        return repositorio.buscarPorId(id);
+    }
+
     public List<T> obtenerCatalogo() {
         return repositorio.listarTodos();
     }
@@ -24,5 +36,8 @@ public class ServicioPublicacionDIP<T> {
     public boolean darDeBaja(int id) {
         return repositorio.eliminar(id);
     }
-}
 
+    public String getMotorPersistencia() {
+        return repositorio.getNombreMotor();
+    }
+}

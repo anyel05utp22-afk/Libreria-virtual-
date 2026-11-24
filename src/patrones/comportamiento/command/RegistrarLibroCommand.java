@@ -3,10 +3,14 @@ package patrones.comportamiento.command;
 import patrones.estructurales.facade.LibreriaFacade;
 import patrones.solid.srp.LibroSRP;
 
+/**
+ * SEMANA 13: Command - Encapsula el registro de un libro y captura su ID real
+ * para que deshacer() elimine exactamente el registro recién insertado.
+ */
 public class RegistrarLibroCommand implements ICommand {
     private final LibreriaFacade facade;
     private final LibroSRP libro;
-    private int idGenerado;
+    private int idGenerado = -1;
 
     public RegistrarLibroCommand(LibreriaFacade facade, LibroSRP libro) {
         this.facade = facade;
@@ -15,7 +19,7 @@ public class RegistrarLibroCommand implements ICommand {
 
     @Override
     public boolean ejecutar() {
-        boolean ok = facade.registrarLibro(
+        int id = facade.registrarLibroRetornandoId(
             libro.getAutor(),
             libro.getTitulo(),
             libro.getEditorial(),
@@ -23,7 +27,12 @@ public class RegistrarLibroCommand implements ICommand {
             libro.getPrecio(),
             libro.getStock()
         );
-        return ok;
+        if (id > 0) {
+            this.idGenerado = id;
+            this.libro.setId(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -34,9 +43,12 @@ public class RegistrarLibroCommand implements ICommand {
         return false;
     }
 
+    public int getIdGenerado() {
+        return idGenerado;
+    }
+
     @Override
     public String getDescripcion() {
         return "Registrar: " + libro.getTitulo() + " (" + libro.getAutor() + ")";
     }
 }
-

@@ -28,6 +28,17 @@ public class ConexionCuento {
    }
    
    public Connection getConnection() {
+       try {
+           if (cn == null || cn.isClosed()) {
+               cn = DriverManager.getConnection(
+                   "jdbc:mysql://localhost:3306/libreria_ElSaber?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
+                   "root",
+                   "root"
+               );
+           }
+       } catch (Exception e) {
+           System.out.println("Error reconectando BD cuento: " + e.getMessage());
+       }
        return cn;
    }
 
@@ -39,12 +50,11 @@ public class ConexionCuento {
                       float precio, int stock) {
 
        int res = 0;
-       Connection cn = null;
        CallableStatement cs = null;
 
        try {
-           cn = getConnection();
-           cs = cn.prepareCall("{ CALL CRC(?,?,?,?,?,?,?) }"); 
+           Connection con = getConnection();
+           cs = con.prepareCall("{ CALL CRC(?,?,?,?,?,?,?) }"); 
            
            cs.setString(1, autor);
            cs.setString(2, titulo);
@@ -58,13 +68,12 @@ public class ConexionCuento {
            System.out.println("Cuento registrado correctamente");
 
        } catch(Exception e) {
-           System.out.println("Error al registrar cuento");
+           System.out.println("Error al registrar cuento: " + e.getMessage());
        } finally {
            try {
                if(cs != null) cs.close();
-               if(cn != null) cn.close();
            } catch(Exception ex) {
-               System.out.println("Error cerrando conexion: " + ex.getMessage());
+               System.out.println("Error cerrando statement: " + ex.getMessage());
            }
        }
        return res;

@@ -29,16 +29,22 @@ public class ConexionLibro {
    }
    
    public Connection getConnection(){
+       try {
+           if (cn == null || cn.isClosed()) {
+               cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libreria_ElSaber?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "root");
+           }
+       } catch (Exception e) {
+           System.out.print("Error reconectando BD: " + e.getMessage());
+       }
        return cn;
    }
    
    public int Rlibro(String autor,String titulo,String editorial, String materia, float precio, int stock){
        int res=0;
-       Connection cn=null;
        CallableStatement cs=null;
        try{
-           cn = getConnection();
-           cs=cn.prepareCall("{ CALL CRL(?,?,?,?,?,?)}");
+           Connection con = getConnection();
+           cs=con.prepareCall("{ CALL CRL(?,?,?,?,?,?)}");
            cs.setString(1, autor);
            cs.setString(2, titulo);
            cs.setString(3, editorial);
@@ -47,15 +53,14 @@ public class ConexionLibro {
            cs.setInt(6, stock);
            res=cs.executeUpdate();
 
-           System.out.print("Usuario registrado correctamente");
+           System.out.println("Libro registrado correctamente (SP CRL)");
        }catch(Exception e){
-           System.out.print("Error al registrar");
+           System.out.println("Error al registrar: " + e.getMessage());
        }finally {
         try {
             if(cs != null) cs.close();
-            if(cn != null) cn.close();  // ESTO era lo que faltaba
         } catch (Exception ex) {
-            System.out.println("Error cerrando conexión: " + ex.getMessage());
+            System.out.println("Error cerrando statement: " + ex.getMessage());
         }
     }
        return res;
@@ -64,7 +69,8 @@ public class ConexionLibro {
         int res=0;
         
         try {
-            ps=cn.prepareStatement("UPDATE libro SET autor=?, titulo=?, editorial=?, materia=?, precio=?, stock=? where id_libro=?");
+            Connection con = getConnection();
+            ps=con.prepareStatement("UPDATE libro SET autor=?, titulo=?, editorial=?, materia=?, precio=?, stock=? where id_libro=?");
             ps.setString(1, autor);
             ps.setString(2, titulo);
             ps.setString(3, editorial);
@@ -76,7 +82,7 @@ public class ConexionLibro {
             ps.close();
             System.out.println("Registro Modificado");
         } catch(Exception e) {
-            System.out.println("Error al modificar");
+            System.out.println("Error al modificar: " + e.getMessage());
         }
         return res;
     }
@@ -84,13 +90,14 @@ public class ConexionLibro {
         int res=0;
         
         try {
-            ps=cn.prepareStatement("DELETE from libro where id_libro=?");
+            Connection con = getConnection();
+            ps=con.prepareStatement("DELETE from libro where id_libro=?");
             ps.setInt(1, idlibro);
             res=ps.executeUpdate();
             ps.close();
             System.out.println("Registro Eliminado");
         } catch(Exception e) {
-            System.out.println("Error al eliminar");
+            System.out.println("Error al eliminar: " + e.getMessage());
         }
         return res;
     }

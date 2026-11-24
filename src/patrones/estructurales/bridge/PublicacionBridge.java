@@ -1,7 +1,9 @@
 package patrones.estructurales.bridge;
 
 /**
- * SEMANA 11: Bridge (Abstracción)
+ * SEMANA 11: Patrón Estructural Bridge (Abstracción)
+ * Mantiene una referencia al implementador IFormatoBridge y delega en él
+ * la renderización del formato y el ajuste de precio.
  */
 public abstract class PublicacionBridge {
     protected IFormatoBridge formato;
@@ -19,7 +21,28 @@ public abstract class PublicacionBridge {
     public abstract String getDetalleEntrega();
 
     public double getPrecioFinal() {
-        return precioBase + formato.costoAdicionalFormato();
+        return formato.ajustarPrecio(precioBase);
+    }
+
+    public boolean requiereStockFisico() {
+        return formato.consumeStockFisico();
+    }
+
+    public String getNombreFormato() {
+        return formato.getNombreFormato();
+    }
+
+    public static IFormatoBridge resolverFormato(String clave) {
+        if (clave == null) return new FormatoFisico();
+        switch (clave.trim().toLowerCase()) {
+            case "digital":
+            case "ebook":
+                return new FormatoDigitalEbook();
+            case "audiolibro":
+            case "audio":
+                return new FormatoAudiolibro();
+            default:
+                return new FormatoFisico();
+        }
     }
 }
-

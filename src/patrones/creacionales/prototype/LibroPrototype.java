@@ -1,5 +1,10 @@
 package patrones.creacionales.prototype;
 
+/**
+ * SEMANA 6: Patrón Creacional Prototype
+ * Permite clonar fichas de libros existentes o plantillas preconfiguradas en memoria
+ * sin acoplar el código cliente ni recargar consultas innecesarias a la base de datos.
+ */
 public class LibroPrototype implements IPublicacionPrototype {
     private String autor;
     private String titulo;
@@ -19,12 +24,17 @@ public class LibroPrototype implements IPublicacionPrototype {
 
     @Override
     public IPublicacionPrototype clonar() {
-        return new LibroPrototype(this.autor, this.titulo + " (Copia)", this.editorial, this.materia, this.precio, this.stock);
+        return clonarConEdicion("2da Edición");
+    }
+
+    public LibroPrototype clonarConEdicion(String etiquetaEdicion) {
+        String sufijo = (etiquetaEdicion == null || etiquetaEdicion.isBlank()) ? "Copia" : etiquetaEdicion.trim();
+        return new LibroPrototype(this.autor, this.titulo + " (" + sufijo + ")", this.editorial, this.materia, this.precio, this.stock);
     }
 
     @Override
     public String getInfo() {
-        return String.format("[Prototipo] %s por %s (Editorial: %s) - S/ %.2f", titulo, autor, editorial, precio);
+        return String.format(java.util.Locale.US, "[Prototipo] %s por %s (Editorial: %s) - S/ %.2f", titulo, autor, editorial, precio);
     }
 
     public String getAutor() { return autor; }
@@ -40,4 +50,3 @@ public class LibroPrototype implements IPublicacionPrototype {
     public int getStock() { return stock; }
     public void setStock(int stock) { this.stock = stock; }
 }
-

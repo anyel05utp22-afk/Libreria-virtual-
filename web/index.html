@@ -3,113 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selecciones especiales — Librería El Saber</title>
+    <title>Selecciones especiales — Librería Virtual El Saber</title>
     <link rel="stylesheet" href="/static/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- FONDO DIFUMINADO COMPLETO EN TODA LA PLATAFORMA -->
+    <!-- FONDO DIFUMINADO EN TODA LA PLATAFORMA -->
     <div class="background-blur-container">
         <div class="background-blur-image"></div>
         <div class="background-overlay"></div>
     </div>
 
-    <!-- CABECERA SUPERIOR IDÉNTICA A LA IMAGEN DE REFERENCIA -->
+    <!-- CABECERA SUPERIOR -->
     <header class="top-nav-ereader">
         <div class="nav-main-row">
             <div class="nav-title-group">
                 <button class="nav-back-btn" onclick="cambiarVista('catalogo')" title="Volver al catálogo">←</button>
-                <h1 class="nav-main-title">Selecciones especiales</h1>
+                <div>
+                    <h1 class="nav-main-title">Selecciones especiales</h1>
+                    <span class="nav-subtitle">Librería Virtual El Saber • Patrones de Diseño</span>
+                </div>
             </div>
             <div class="nav-actions">
                 <div class="search-box">
                     <span class="search-ico">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Buscar libros, autores..." oninput="filtrarCatalogo()">
+                    <input type="text" id="searchInput" placeholder="Buscar libros, autores, categorías..." oninput="filtrarCatalogo()">
                 </div>
                 <div class="nav-pills">
                     <button class="pill-btn active" id="btnTabCatalogo" onclick="cambiarVista('catalogo')">Catálogo</button>
                     <button class="pill-btn" id="btnTabInventario" onclick="cambiarVista('inventario')">Gestión CRUD</button>
-                    <button class="pill-btn" id="btnTabAuditoria" onclick="cambiarVista('auditoria')">Auditoría</button>
+                    <button class="pill-btn" id="btnTabPrestamos" onclick="cambiarVista('prestamos')">Préstamos y Alertas</button>
                 </div>
+                <button class="cart-pill-btn" onclick="abrirModalCarrito()" title="Abrir carrito de compras (GRASP Creador)">
+                    🛒 <span id="cartCountBadge">0</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL -->
     <main class="ereader-main-container">
 
         <!-- ============================================== -->
-        <!-- 1. VISTA DASHBOARD PRINCIPAL: CATÁLOGO DE LIBROS -->
+        <!-- 1. VISTA PRINCIPAL: CATÁLOGO DE LA BIBLIOTECA  -->
         <!-- ============================================== -->
         <section id="vista-catalogo" class="content-view active">
             <div class="catalog-canvas">
+                <div class="catalog-filter-bar" id="bannerFiltroCategoria" style="display:none;">
+                    <span id="txtFiltroCategoria">Mostrando categoría</span>
+                    <button class="tool-btn" onclick="limpiarFiltroSeccion()">Ver todas las secciones</button>
+                </div>
 
                 <!-- 1. Recomendados de amor -->
-                <div class="ereader-category-block">
+                <div class="ereader-category-block" id="sec-amor">
                     <div class="ereader-category-header">
                         <h2>Recomendados de amor</h2>
-                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-amor')">➜</span>
+                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-amor')" title="Enfocar sección">➜</span>
                     </div>
-                    <div class="ereader-carousel" id="row-amor">
-                        <!-- Generado dinámicamente -->
-                    </div>
+                    <div class="ereader-carousel" id="row-amor"></div>
                 </div>
 
                 <!-- 2. Novelas y cuentos para las vacaciones -->
-                <div class="ereader-category-block">
+                <div class="ereader-category-block" id="sec-vacaciones">
                     <div class="ereader-category-header">
                         <h2>Novelas y cuentos para las vacaciones</h2>
-                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-vacaciones')">➜</span>
+                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-vacaciones')" title="Enfocar sección">➜</span>
                     </div>
-                    <div class="ereader-carousel" id="row-vacaciones">
-                        <!-- Generado dinámicamente -->
-                    </div>
+                    <div class="ereader-carousel" id="row-vacaciones"></div>
                 </div>
 
                 <!-- 3. Clásicos -->
-                <div class="ereader-category-block">
+                <div class="ereader-category-block" id="sec-clasicos">
                     <div class="ereader-category-header">
                         <h2>Clásicos</h2>
-                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-clasicos')">➜</span>
+                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-clasicos')" title="Enfocar sección">➜</span>
                     </div>
-                    <div class="ereader-carousel" id="row-clasicos">
-                        <!-- Generado dinámicamente -->
-                    </div>
+                    <div class="ereader-carousel" id="row-clasicos"></div>
                 </div>
 
                 <!-- 4. Filosofía, Educación, Ciencia y Tecnología -->
-                <div class="ereader-category-block">
+                <div class="ereader-category-block" id="sec-filosofia">
                     <div class="ereader-category-header">
                         <h2>Filosofía, Educación, Ciencia y Tecnología</h2>
-                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-filosofia')">➜</span>
+                        <span class="ereader-arrow" onclick="enfocarSeccion('sec-filosofia')" title="Enfocar sección">➜</span>
                     </div>
-                    <div class="ereader-carousel" id="row-filosofia">
-                        <!-- Generado dinámicamente -->
-                    </div>
+                    <div class="ereader-carousel" id="row-filosofia"></div>
                 </div>
 
+                <!-- 5. Hemeroteca y Cuentos (LSP + Factory Method) -->
+                <div class="ereader-category-block" id="sec-hemeroteca">
+                    <div class="ereader-category-header">
+                        <h2>Hemeroteca: Cuentos y Revistas <small class="tag-subtle">(LSP + Factory Method)</small></h2>
+                        <span class="ereader-arrow" onclick="cambiarVista('inventario')" title="Administrar publicaciones">➜</span>
+                    </div>
+                    <div class="lsp-cards-grid" id="row-hemeroteca"></div>
+                </div>
             </div>
         </section>
 
         <!-- ============================================== -->
-        <!-- 2. VISTA GESTIÓN INVENTARIO CRUD (SIN PERDER NADA) -->
+        <!-- 2. VISTA GESTIÓN INVENTARIO CRUD + PATRONES    -->
         <!-- ============================================== -->
         <section id="vista-inventario" class="content-view">
             <div class="management-canvas">
                 <div class="mgmt-header">
                     <div>
                         <h2>Gestión y Administración de Inventario</h2>
-                        <p>CRUD conectado a MySQL (Procedimientos CRL, Mlibro, Elibro) con patrones de diseño integrados.</p>
+                        <p>Persistencia desacoplada con DIP + Adapter (CRL, CRC, CRR), validación SRP, Command Undo/Redo y Memento.</p>
                     </div>
                     <div class="mgmt-toolbar">
-                        <button class="tool-btn" onclick="duplicarConPrototype()">📑 Duplicar Ficha (Prototype)</button>
-                        <button class="tool-btn" onclick="abrirModalBuilder()">🔨 Asistente (Builder)</button>
-                        <button class="tool-btn" onclick="importarColeccionEditorial()">📦 Importar Pack (Abstract Factory)</button>
-                        <button class="tool-btn tool-undo" onclick="deshacerCommand()">↩️ Deshacer (Undo)</button>
-                        <button class="tool-btn" onclick="restaurarMemento()">🕒 Restaurar (Memento)</button>
+                        <button class="tool-btn" onclick="duplicarConPrototype()">📑 Duplicar (Prototype)</button>
+                        <button class="tool-btn" onclick="abrirModalPlantillas()">📋 Plantillas</button>
+                        <button class="tool-btn" onclick="abrirModalBuilder()">🔨 Builder + Director</button>
+                        <button class="tool-btn" onclick="abrirModalEditorial()">📦 Pack Editorial</button>
+                        <button class="tool-btn" onclick="abrirModalFactory()">🏭 Cuento/Revista</button>
+                        <button class="tool-btn tool-undo" id="btnUndo" onclick="deshacerCommand()">↩️ Undo (0)</button>
+                        <button class="tool-btn tool-redo" id="btnRedo" onclick="rehacerCommand()">↪️ Redo (0)</button>
+                        <button class="tool-btn" id="btnMemento" onclick="restaurarMemento()">🕒 Memento (0)</button>
                     </div>
+                </div>
+
+                <!-- KPIs del Experto en Información (GRASP Semana 17) -->
+                <div class="kpi-strip" id="kpiExpertoStrip">
+                    <div class="kpi-card"><span class="kpi-lbl">Títulos</span><strong id="kpiTitulos">-</strong></div>
+                    <div class="kpi-card"><span class="kpi-lbl">Unidades en Stock</span><strong id="kpiUnidades">-</strong></div>
+                    <div class="kpi-card"><span class="kpi-lbl">Valor Inventario (Experto)</span><strong id="kpiValor">S/ -</strong></div>
+                    <div class="kpi-card kpi-warn"><span class="kpi-lbl">Stock Bajo (&le;3)</span><strong id="kpiBajo">-</strong></div>
+                    <div class="kpi-card kpi-danger"><span class="kpi-lbl">Agotados</span><strong id="kpiAgotados">-</strong></div>
+                </div>
+
+                <div class="alert-reabastecimiento" id="boxAlertasExperto" style="display:none;">
+                    <strong>⚠️ Alertas de Reabastecimiento (GRASP Experto en Información):</strong>
+                    <div class="alert-chips" id="listaAlertasExperto"></div>
                 </div>
 
                 <!-- Formulario CRUD -->
@@ -130,26 +156,32 @@
                         </div>
                         <div class="field-item">
                             <label>Categoría / Materia:</label>
-                            <input type="text" id="txtMateria" required placeholder="Ej: Clásicos" oninput="guardarSnapshotMemento()">
+                            <input type="text" id="txtMateria" list="categoriasSugeridas" required placeholder="Ej: Clásicos" oninput="guardarSnapshotMemento()">
+                            <datalist id="categoriasSugeridas">
+                                <option value="Recomendados de amor">
+                                <option value="Novelas y cuentos para las vacaciones">
+                                <option value="Clásicos">
+                                <option value="Filosofía, Educación, Ciencia y Tecnología">
+                            </datalist>
                         </div>
                         <div class="field-item">
-                            <label>Precio (S/):</label>
-                            <input type="number" step="0.01" id="txtPrecio" required placeholder="45.00" oninput="guardarSnapshotMemento()">
+                            <label>Precio Base (S/):</label>
+                            <input type="number" step="0.01" min="0" id="txtPrecio" required placeholder="45.00" oninput="guardarSnapshotMemento()">
                         </div>
                         <div class="field-item">
                             <label>Stock Disponible:</label>
-                            <input type="number" id="txtStock" required placeholder="10" oninput="guardarSnapshotMemento()">
+                            <input type="number" min="0" id="txtStock" required placeholder="10" oninput="guardarSnapshotMemento()">
                         </div>
                     </div>
 
                     <div class="mgmt-actions">
                         <button type="button" class="btn-clean" onclick="limpiarFormulario()">🧹 Limpiar</button>
                         <button type="button" class="btn-del" onclick="eliminarLibro()">🗑️ Eliminar</button>
-                        <button type="submit" class="btn-save" id="btnSubmitForm">➕ Registrar Producto</button>
+                        <button type="submit" class="btn-save" id="btnSubmitForm">➕ Registrar Libro</button>
                     </div>
                 </form>
 
-                <!-- Tabla de Datos -->
+                <!-- Tabla de Inventario -->
                 <div class="mgmt-table-box">
                     <table class="ereader-table">
                         <thead>
@@ -159,65 +191,106 @@
                                 <th>Autor</th>
                                 <th>Editorial</th>
                                 <th>Categoría</th>
-                                <th>Precio</th>
+                                <th>Precio (c/IGV)</th>
                                 <th>Stock</th>
                                 <th>Estado (State)</th>
-                                <th>Acción</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaCuerpo">
-                            <tr><td colspan="9" style="text-align: center; padding: 20px;">Cargando inventario de MySQL...</td></tr>
+                            <tr><td colspan="9" style="text-align:center; padding:20px;">Cargando inventario...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Árbol Jerárquico Composite (Semana 9) -->
+                <div class="composite-panel">
+                    <div class="composite-header">
+                        <div>
+                            <h3>🌳 Árbol Jerárquico del Catálogo (Patrón Composite)</h3>
+                            <p>Cálculo recursivo de ítems, stock y valorización por categoría y catálogo raíz.</p>
+                        </div>
+                        <button class="tool-btn" onclick="cargarArbolComposite()">🔄 Recalcular Árbol</button>
+                    </div>
+                    <div id="compositeTreeContainer" class="composite-tree">Cargando estructura Composite...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 3. VISTA PRÉSTAMOS, MORA Y ALERTAS OBSERVER    -->
+        <!-- ============================================== -->
+        <section id="vista-prestamos" class="content-view">
+            <div class="management-canvas">
+                <div class="mgmt-header">
+                    <div>
+                        <h2>Préstamos Bibliotecarios, Mora Polimórfica y Alertas Observer</h2>
+                        <p>Integra SOLID ISP (<code>IPrestable</code>), GRASP Polimorfismo (<code>IRecursoBiblioteca</code>), State y Observer.</p>
+                    </div>
+                    <button class="tool-btn" onclick="cargarVistaPrestamosYAlertas()">🔄 Actualizar</button>
+                </div>
+
+                <div class="two-col-grid">
+                    <!-- Calculadora Polimórfica de Mora -->
+                    <div class="info-card-panel">
+                        <h3>⚖️ Calculadora de Mora (GRASP Polimorfismo)</h3>
+                        <p class="panel-desc">Compara reglas sin condicionales dispersos usando <code>RecursoLibro</code>, <code>RecursoCuento</code> y <code>RecursoRevista</code>.</p>
+                        <div class="mora-calc-row">
+                            <select id="selTipoMora" onchange="calcularMoraPolimorfica()">
+                                <option value="libro">Libro (14 días máx. • S/ 2.50/día)</option>
+                                <option value="cuento">Cuento (7 días máx. • S/ 1.50/día)</option>
+                                <option value="revista">Revista (3 días máx. • S/ 5.00/día)</option>
+                            </select>
+                            <input type="number" id="txtDiasRetraso" min="0" value="3" oninput="calcularMoraPolimorfica()" placeholder="Días de retraso">
+                        </div>
+                        <div class="mora-result-box" id="boxResultadoMora">Calculando...</div>
+                    </div>
+
+                    <!-- Centro de Alertas Observer -->
+                    <div class="info-card-panel">
+                        <h3>🔔 Notificaciones de Stock (Patrón Observer)</h3>
+                        <p class="panel-desc">Cuando se repone stock o se devuelve un libro prestado, <code>StockObservable</code> avisa automáticamente a los suscriptores.</p>
+                        <div class="observer-stats" id="observerResumen">Suscriptores activos: 0</div>
+                        <div class="observer-feed" id="observerNotificaciones">
+                            <div class="empty-hint">Aún no se han disparado notificaciones. Suscríbete en un libro agotado y repón su stock en Gestión CRUD.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Préstamos Activos / Históricos -->
+                <div class="mgmt-table-box" style="margin-top: 20px;">
+                    <table class="ereader-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Publicación</th>
+                                <th>Tipo Recurso</th>
+                                <th>Lector (DNI)</th>
+                                <th>Préstamo</th>
+                                <th>Vence</th>
+                                <th>Mora/Día</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaPrestamos">
+                            <tr><td colspan="9" style="text-align:center; padding:20px;">No hay préstamos registrados aún. Haz clic en un libro disponible del Catálogo para prestarlo.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
-
-        <!-- ============================================== -->
-        <!-- 3. VISTA AUDITORÍA Y TRAZABILIDAD -->
-        <!-- ============================================== -->
-        <section id="vista-auditoria" class="content-view">
-            <div class="management-canvas">
-                <div class="mgmt-header">
-                    <div>
-                        <h2>Trazabilidad y Principios de Diseño del Sistema</h2>
-                        <p>Eventos registrados en tiempo real mediante el patrón GRASP Fabricación Pura y eliminación de antipatrones.</p>
-                    </div>
-                    <button class="tool-btn" onclick="cargarAuditoria()">🔄 Actualizar Logs</button>
-                </div>
-
-                <div class="audit-row">
-                    <div class="audit-log-box">
-                        <h3>📋 Registro Transaccional (Pure Fabrication)</h3>
-                        <div class="log-terminal" id="auditLogs">
-                            <div class="log-line">[Iniciando sistema...] Conectado a MySQL 8.0 (libreria_ElSaber)</div>
-                        </div>
-                    </div>
-                    <div class="audit-anti-box">
-                        <h3>🛡️ Antipatrones Prevenidos en el Proyecto</h3>
-                        <ul class="anti-list">
-                            <li><strong>The God Object (Blob):</strong> Eliminado separando la capa web, la lógica de negocio y las operaciones de datos.</li>
-                            <li><strong>Spaghetti Code & Hardcoded SQL:</strong> Eliminado encapsulando JDBC en `ConexionLibro` y `LibreriaFacade`.</li>
-                            <li><strong>Lava Flow:</strong> Código obsoleto eliminado y refactorizado de forma modular.</li>
-                            <li><strong>Golden Hammer:</strong> Cada uno de los patrones GoF y GRASP se utiliza en su rol exacto.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <!-- ============================================== -->
-    <!-- MODAL DE ADQUISICIÓN INTERACTIVO (PATRONES GOF) -->
+    <!-- MODAL DETALLE DE LIBRO (COMPRA, PRÉSTAMO, STATE) -->
     <!-- ============================================== -->
     <div id="modalCompra" class="modal-backdrop">
-        <div class="modal-card">
+        <div class="modal-card modal-wide">
             <div class="modal-top">
                 <h3 id="modalTitulo">Detalle de Publicación</h3>
-                <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+                <button class="modal-close-btn" onclick="cerrarModal('modalCompra')">&times;</button>
             </div>
-
             <div class="modal-body-scroll">
                 <div class="modal-book-hero">
                     <div class="book-cover-mockup" id="modalCover">
@@ -230,60 +303,330 @@
                         <div class="modal-pills">
                             <span class="pill-status" id="modalBadgeEstado">Disponible</span>
                             <span class="pill-stock" id="modalBadgeStock">Stock: 5</span>
+                            <span class="pill-proxy" id="modalBadgeProxy">Proxy: cargando...</span>
                         </div>
-                        <p class="modal-loan-rule" id="modalReglasPrestamo">Plazo máximo: 14 días • Mora: S/ 2.50/día (GRASP Polimorfismo)</p>
+                        <p class="modal-loan-rule" id="modalReglasPrestamo">Plazo máximo: 14 días • Mora: S/ 2.50/día</p>
                     </div>
                 </div>
 
+                <!-- Opciones de Compra -->
                 <div class="modal-form-options">
-                    <!-- Bridge: Formato -->
+                    <div class="opt-grid-2">
+                        <div class="opt-row">
+                            <label>Cantidad:</label>
+                            <input type="number" id="txtCantidadCompra" min="1" value="1" onchange="actualizarCalculoModal()">
+                        </div>
+                        <div class="opt-row">
+                            <label>Promoción / Descuento (OCP):</label>
+                            <select id="selDescuento" onchange="actualizarCalculoModal()"></select>
+                        </div>
+                    </div>
+
                     <div class="opt-row">
-                        <label>Formato de Entrega (Bridge Pattern):</label>
+                        <label>Formato de Entrega (Patrón Bridge):</label>
                         <div class="opt-radios">
-                            <label><input type="radio" name="formato" value="fisico" checked onchange="actualizarCalculoModal()"> Impreso en Papel (+S/ 0.00)</label>
-                            <label><input type="radio" name="formato" value="digital" onchange="actualizarCalculoModal()"> E-Book Digital (Descarga directa S/ 0)</label>
+                            <label><input type="radio" name="formato" value="fisico" checked onchange="actualizarCalculoModal()"> 📘 Impreso Físico (+S/ 0.00)</label>
+                            <label><input type="radio" name="formato" value="digital" onchange="actualizarCalculoModal()"> 📱 E-Book Digital (-20% OFF • ISP IDigital)</label>
+                            <label><input type="radio" name="formato" value="audiolibro" onchange="actualizarCalculoModal()"> 🎧 Audiolibro HD (+S/ 6.00)</label>
                         </div>
                     </div>
 
-                    <!-- OCP: Descuento -->
                     <div class="opt-row">
-                        <label>Promoción / Descuento (OCP Strategy):</label>
-                        <select id="selDescuento" onchange="actualizarCalculoModal()">
-                            <option value="ninguno">Tarifa Regular (Sin descuento)</option>
-                            <option value="estudiante">Descuento Estudiante (15% OFF)</option>
-                            <option value="temporada">Descuento Feria del Libro (25% OFF)</option>
-                        </select>
-                    </div>
-
-                    <!-- Decorator: Servicios -->
-                    <div class="opt-row">
-                        <label>Servicios Adicionales (Decorator Pattern):</label>
+                        <label>Servicios Adicionales (Patrón Decorator):</label>
                         <div class="opt-checks">
-                            <label><input type="checkbox" id="chkRegalo" onchange="actualizarCalculoModal()"> 🎁 Empaque de Regalo con dedicatoria (+S/ 5.00)</label>
-                            <label><input type="checkbox" id="chkGarantia" onchange="actualizarCalculoModal()"> 🛡️ Garantía de reposición 30 días (+S/ 3.50)</label>
+                            <label><input type="checkbox" id="chkRegalo" onchange="actualizarCalculoModal()"> 🎁 Empaque de Regalo (+S/ 5.00)</label>
+                            <label><input type="checkbox" id="chkGarantia" onchange="actualizarCalculoModal()"> 🛡️ Garantía 30 días (+S/ 3.50)</label>
+                            <label><input type="checkbox" id="chkExpress" onchange="actualizarCalculoModal()"> ⚡ Envío Express 24h (+S/ 8.00)</label>
                         </div>
                     </div>
 
-                    <!-- Total en vivo -->
                     <div class="modal-price-box">
-                        <span class="price-title">Total a Pagar:</span>
+                        <div>
+                            <div class="price-title">Total con IGV (18%):</div>
+                            <div class="price-sub" id="modalPrecioDesglose">Subtotal + IGV</div>
+                        </div>
                         <span class="price-amount" id="modalPrecioTotal">S/ 0.00</span>
                     </div>
 
-                    <!-- Observer: Suscripción a stock -->
-                    <div id="boxSuscripcion" class="modal-observer-box" style="display: none;">
-                        <p><strong>🔔 ¿Ejemplar agotado?</strong> Suscríbete y te avisaremos inmediatamente cuando haya nuevo stock:</p>
+                    <!-- Préstamo ISP -->
+                    <div class="modal-loan-box" id="boxPrestamoModal">
+                        <p><strong>📚 Préstamo Bibliotecario (ISP <code>IPrestable</code>):</strong></p>
                         <div class="sub-form-row">
-                            <input type="email" id="txtSubEmail" placeholder="Tu correo electrónico">
-                            <button type="button" class="btn-sub-action" onclick="suscribirAlertaStock()">Suscribirme (Observer)</button>
+                            <input type="text" id="txtPrestamoCliente" placeholder="Nombre del lector">
+                            <input type="text" id="txtPrestamoDni" placeholder="DNI (8 dígitos)">
+                            <button type="button" class="btn-loan-action" onclick="solicitarPrestamoDesdeModal()">Prestar Ejemplar</button>
+                        </div>
+                    </div>
+
+                    <!-- Reserva State -->
+                    <div class="modal-state-box">
+                        <span><strong>🔖 Control de Estado (Patrón State):</strong></span>
+                        <div class="state-btns">
+                            <button type="button" class="tool-btn" id="btnReservarEstado" onclick="reservarEjemplarActual()">Reservar Ejemplar</button>
+                            <button type="button" class="tool-btn" id="btnLiberarEstado" onclick="liberarReservaActual()" style="display:none;">Liberar Reserva</button>
+                        </div>
+                    </div>
+
+                    <!-- Observer -->
+                    <div id="boxSuscripcion" class="modal-observer-box" style="display:none;">
+                        <p><strong>🔔 ¿Ejemplar agotado?</strong> Suscríbete con <code>Observer</code> para recibir aviso automático al reponer stock:</p>
+                        <div class="sub-form-row">
+                            <input type="email" id="txtSubEmail" placeholder="tu.correo@ejemplo.com">
+                            <button type="button" class="btn-sub-action" onclick="suscribirAlertaStock()">Suscribirme</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-bottom-actions">
-                <button type="button" class="btn-cancel" onclick="cerrarModal()">Cerrar</button>
-                <button type="button" class="btn-confirm" id="btnComprarModal" onclick="confirmarCompra()">💳 Comprar / Facturar (SRP)</button>
+                <button type="button" class="btn-cancel" onclick="cerrarModal('modalCompra')">Cerrar</button>
+                <button type="button" class="btn-cart-add" id="btnAgregarCarrito" onclick="agregarAlCarritoActual()">🛒 Agregar al Carrito</button>
+                <button type="button" class="btn-confirm" id="btnComprarModal" onclick="confirmarCompraDirecta()">💳 Comprar / Facturar (SRP)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL CARRITO DE COMPRAS (GRASP CREATOR)       -->
+    <!-- ============================================== -->
+    <div id="modalCarrito" class="modal-backdrop">
+        <div class="modal-card modal-wide">
+            <div class="modal-top">
+                <h3>🛒 Carrito de Compras (GRASP Creador + OCP + Bridge + Decorator)</h3>
+                <button class="modal-close-btn" onclick="cerrarModal('modalCarrito')">&times;</button>
+            </div>
+            <div class="modal-body-scroll">
+                <div id="carritoItemsContainer" class="cart-list"></div>
+                <div class="opt-grid-2">
+                    <div class="opt-row">
+                        <label>Nombre del Cliente:</label>
+                        <input type="text" id="txtCartCliente" value="Cliente Web" placeholder="Nombre para la boleta">
+                    </div>
+                    <div class="opt-row">
+                        <label>Descuento (OCP):</label>
+                        <select id="selCartDescuento" onchange="recalcularCarrito()"></select>
+                    </div>
+                </div>
+                <div class="opt-row">
+                    <label>Formato (Bridge):</label>
+                    <div class="opt-radios">
+                        <label><input type="radio" name="cartFormato" value="fisico" checked onchange="recalcularCarrito()"> Impreso Físico</label>
+                        <label><input type="radio" name="cartFormato" value="digital" onchange="recalcularCarrito()"> E-Book Digital (-20%)</label>
+                        <label><input type="radio" name="cartFormato" value="audiolibro" onchange="recalcularCarrito()"> Audiolibro (+S/ 6)</label>
+                    </div>
+                </div>
+                <div class="opt-row">
+                    <label>Extras (Decorator):</label>
+                    <div class="opt-checks">
+                        <label><input type="checkbox" id="chkCartRegalo" onchange="recalcularCarrito()"> 🎁 Regalo (+S/ 5)</label>
+                        <label><input type="checkbox" id="chkCartGarantia" onchange="recalcularCarrito()"> 🛡️ Garantía (+S/ 3.50)</label>
+                        <label><input type="checkbox" id="chkCartExpress" onchange="recalcularCarrito()"> ⚡ Express (+S/ 8)</label>
+                    </div>
+                </div>
+                <div class="modal-price-box">
+                    <div>
+                        <div class="price-title">Total Carrito c/IGV:</div>
+                        <div class="price-sub" id="cartDesglose">Agrega libros para cotizar</div>
+                    </div>
+                    <span class="price-amount" id="cartTotalFinal">S/ 0.00</span>
+                </div>
+            </div>
+            <div class="modal-bottom-actions">
+                <button type="button" class="btn-cancel" onclick="vaciarCarrito()">Vaciar</button>
+                <button type="button" class="btn-confirm" id="btnCheckoutCarrito" onclick="confirmarCompraCarrito()">💳 Facturar Carrito (SRP)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL BOLETA ELECTRÓNICA (DISEÑO MODERNO SRP)  -->
+    <!-- ============================================== -->
+    <div id="modalBoleta" class="modal-backdrop">
+        <div class="modal-card receipt-modal-card">
+            <div class="receipt-hero-header">
+                <div class="receipt-check-circle">✓</div>
+                <div class="receipt-hero-text">
+                    <h3>¡Compra confirmada!</h3>
+                    <p>Librería Virtual El Saber S.A.C.</p>
+                </div>
+                <span class="receipt-number-pill" id="boletaNumero">B001-1001</span>
+                <button class="modal-close-btn" onclick="cerrarModal('modalBoleta')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body-scroll receipt-body">
+                <div class="receipt-meta-grid">
+                    <div class="receipt-meta-item">
+                        <span>Fecha y hora</span>
+                        <strong id="boletaFecha">-</strong>
+                    </div>
+                    <div class="receipt-meta-item">
+                        <span>Cliente</span>
+                        <strong id="boletaCliente">Cliente Web</strong>
+                    </div>
+                    <div class="receipt-meta-item">
+                        <span>Entrega (Bridge)</span>
+                        <strong id="boletaFormato">Impreso Físico</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-items-card">
+                    <div class="receipt-section-label">Detalle de artículos</div>
+                    <ul class="receipt-items-list" id="boletaLineas"></ul>
+                </div>
+
+                <div class="receipt-summary-card">
+                    <div class="receipt-sum-row">
+                        <span>Subtotal</span>
+                        <span id="boletaSubtotalBruto">S/ 0.00</span>
+                    </div>
+                    <div class="receipt-sum-row receipt-discount-row" id="rowBoletaDescuento">
+                        <span id="boletaDescLabel">Promoción (OCP)</span>
+                        <span id="boletaDescuento">-S/ 0.00</span>
+                    </div>
+                    <div class="receipt-sum-row" id="rowBoletaExtras" style="display:none;">
+                        <span id="boletaExtrasLabel">Servicios adicionales</span>
+                        <span id="boletaExtras">+S/ 0.00</span>
+                    </div>
+                    <div class="receipt-sum-row">
+                        <span>IGV (18%)</span>
+                        <span id="boletaIgv">S/ 0.00</span>
+                    </div>
+                    <div class="receipt-total-row">
+                        <span>Total pagado</span>
+                        <strong id="boletaTotalFinal">S/ 0.00</strong>
+                    </div>
+                </div>
+
+                <div id="boxDescargaDigital" class="digital-download-box" style="display:none;">
+                    <div>
+                        <strong>📱 Acceso Digital Listo (ISP <code>IDigital</code>)</strong>
+                        <p id="txtInfoDigital">Archivo EPUB listo para descarga</p>
+                    </div>
+                    <a id="lnkDescargaDigital" class="btn-confirm" href="#" target="_blank">⬇️ Descargar E-Book</a>
+                </div>
+            </div>
+            <div class="modal-bottom-actions receipt-footer">
+                <span class="receipt-srp-note">Comprobante generado con SRP · Gracias por tu lectura</span>
+                <button type="button" class="btn-confirm" onclick="cerrarModal('modalBoleta')">Listo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL ASISTENTE BUILDER + DIRECTOR             -->
+    <!-- ============================================== -->
+    <div id="modalBuilder" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-top">
+                <h3>🔨 Asistente Builder + DirectorPublicacion</h3>
+                <button class="modal-close-btn" onclick="cerrarModal('modalBuilder')">&times;</button>
+            </div>
+            <form class="modal-body-scroll" onsubmit="ejecutarBuilder(event)">
+                <div class="opt-row">
+                    <label>Receta del Director (<code>DirectorPublicacion</code>):</label>
+                    <select id="selBuilderPreset">
+                        <option value="personalizado">Personalizado (paso a paso)</option>
+                        <option value="coleccionista">Edición Coleccionista (Tapa Dura + Prólogo + Ilustrado + ISBN)</option>
+                        <option value="bolsillo">Edición Bolsillo (-25% precio base)</option>
+                        <option value="academico">Manual Académico (Tapa Dura + Prólogo + ISBN)</option>
+                    </select>
+                </div>
+                <div class="opt-grid-2">
+                    <div class="field-item"><label>Título:</label><input type="text" id="bTitulo" required value="Patrones de Diseño Aplicados"></div>
+                    <div class="field-item"><label>Autor:</label><input type="text" id="bAutor" required value="Erich Gamma et al."></div>
+                    <div class="field-item"><label>Editorial:</label><input type="text" id="bEditorial" required value="Addison-Wesley"></div>
+                    <div class="field-item"><label>Categoría:</label><input type="text" id="bMateria" required value="Filosofía, Educación, Ciencia y Tecnología"></div>
+                    <div class="field-item"><label>Precio Base (S/):</label><input type="number" step="0.01" id="bPrecio" required value="62.00"></div>
+                    <div class="field-item"><label>Stock:</label><input type="number" id="bStock" required value="10"></div>
+                </div>
+                <div class="field-item"><label>ISBN (opcional):</label><input type="text" id="bIsbn" placeholder="978-612-0001-23"></div>
+                <div class="opt-checks">
+                    <label><input type="checkbox" id="bTapaDura"> Tapa Dura (+S/ 12)</label>
+                    <label><input type="checkbox" id="bPrologo"> Con Prólogo</label>
+                    <label><input type="checkbox" id="bIlustrado"> Ilustrado (+S/ 8)</label>
+                </div>
+                <div class="modal-bottom-actions" style="padding: 12px 0 0;">
+                    <button type="button" class="btn-cancel" onclick="cerrarModal('modalBuilder')">Cancelar</button>
+                    <button type="submit" class="btn-confirm">🔨 Construir y Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL PACK EDITORIAL (ABSTRACT FACTORY)        -->
+    <!-- ============================================== -->
+    <div id="modalEditorial" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-top">
+                <h3>📦 Importar Pack Editorial (Abstract Factory)</h3>
+                <button class="modal-close-btn" onclick="cerrarModal('modalEditorial')">&times;</button>
+            </div>
+            <div class="modal-body-scroll">
+                <p class="panel-desc">Cada fábrica concreta crea una familia coherente de productos: un <strong>Libro destacado</strong> + una <strong>Revista asociada</strong>.</p>
+                <div class="editorial-grid">
+                    <button class="editorial-card" onclick="importarPackEditorial('planeta')">
+                        <strong>Grupo Planeta</strong>
+                        <span>Libro: Sapiens + Revista: National Geographic Especial</span>
+                    </button>
+                    <button class="editorial-card" onclick="importarPackEditorial('norma')">
+                        <strong>Editorial Norma</strong>
+                        <span>Libro: El Caballero de la Armadura Oxidada + Comic Manga</span>
+                    </button>
+                    <button class="editorial-card" onclick="importarPackEditorial('alfaguara')">
+                        <strong>Editorial Alfaguara</strong>
+                        <span>Libro: Rayuela Conmemorativa + Cuadernos Hispanoamericanos</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL FACTORY METHOD (CUENTO / REVISTA / LIBRO) -->
+    <!-- ============================================== -->
+    <div id="modalFactory" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-top">
+                <h3>🏭 Registrar Publicación (Factory Method + LSP)</h3>
+                <button class="modal-close-btn" onclick="cerrarModal('modalFactory')">&times;</button>
+            </div>
+            <form class="modal-body-scroll" onsubmit="ejecutarFactoryMethod(event)">
+                <div class="opt-row">
+                    <label>Tipo de Publicación (Fábrica Concreta):</label>
+                    <select id="fTipo" onchange="actualizarCamposFactory()">
+                        <option value="cuento">Cuento (CuentoFactory → tabla cuento / SP CRC)</option>
+                        <option value="revista">Revista (RevistaFactory → tabla revista / SP CRR)</option>
+                        <option value="libro">Libro (LibroFactory → tabla libro / SP CRL)</option>
+                    </select>
+                </div>
+                <div class="opt-grid-2">
+                    <div class="field-item"><label>Título:</label><input type="text" id="fTitulo" required placeholder="Ej: El Principito / Muy Interesante"></div>
+                    <div class="field-item"><label id="lblFAutor">Autor:</label><input type="text" id="fAutor" required placeholder="Ej: Antoine de Saint-Exupéry"></div>
+                    <div class="field-item"><label id="lblFEditorial">Editorial:</label><input type="text" id="fEditorial" required value="Planeta Kids"></div>
+                    <div class="field-item"><label id="lblFExtra">Edad recomendada:</label><input type="number" id="fNumeroExtra" required value="7"></div>
+                    <div class="field-item"><label id="lblFMateria">Número de páginas:</label><input type="text" id="fMateria" required value="64"></div>
+                    <div class="field-item"><label>Precio (S/):</label><input type="number" step="0.01" id="fPrecio" required value="22.00"></div>
+                    <div class="field-item"><label>Stock:</label><input type="number" id="fStock" required value="12"></div>
+                </div>
+                <div class="modal-bottom-actions" style="padding: 12px 0 0;">
+                    <button type="button" class="btn-cancel" onclick="cerrarModal('modalFactory')">Cancelar</button>
+                    <button type="submit" class="btn-confirm">🏭 Crear con Factory Method</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL PLANTILLAS PROTOTYPE                     -->
+    <!-- ============================================== -->
+    <div id="modalPlantillas" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-top">
+                <h3>📋 Registro de Plantillas (Patrón Prototype)</h3>
+                <button class="modal-close-btn" onclick="cerrarModal('modalPlantillas')">&times;</button>
+            </div>
+            <div class="modal-body-scroll">
+                <p class="panel-desc">Selecciona un prototipo preconfigurado para clonarlo en el formulario CRUD sin escribir desde cero:</p>
+                <div class="editorial-grid" id="listaPlantillasPrototype">Cargando plantillas...</div>
             </div>
         </div>
     </div>

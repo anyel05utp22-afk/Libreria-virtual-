@@ -12,9 +12,9 @@
             "problemMatcher": ["$javac"]
         },
         {
-            "label": "Ejecutar Aplicación Principal (Catálogo y CRUD)",
+            "label": "Ejecutar Servidor Web (localhost:8084)",
             "type": "shell",
-            "command": "java -cp \"build/classes;lib/*\" patrones.ui.MainLibreriaApp",
+            "command": "java -cp \"build/classes;bin;lib/*\" patrones.servidor.ServidorLibreriaWeb",
             "dependsOn": "Compilar Proyecto",
             "group": {
                 "kind": "test",
